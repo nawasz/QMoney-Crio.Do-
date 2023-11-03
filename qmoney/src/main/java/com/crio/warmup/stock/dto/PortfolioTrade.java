@@ -56,6 +56,10 @@ public class PortfolioTrade {
   public TradeType getTradeType() {
     return tradeType;
   }
+  // @Override
+  // public String toString() {
+  //      return "["+ this.symbol + ']';
+  // }
   //solution
 
 }

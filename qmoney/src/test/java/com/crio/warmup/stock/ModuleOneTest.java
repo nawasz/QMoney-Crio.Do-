@@ -13,10 +13,12 @@ class ModuleOneTest {
     //given
     String filename = "assessments/trades.json";
     List<String> expected = Arrays.asList(new String[]{"MSFT", "CSCO", "CTS"});
+    
 
     //when
     List<String> results = PortfolioManagerApplication
         .mainReadFile(new String[]{filename});
+
 
     //then
     Assertions.assertEquals(expected, results);
@@ -27,11 +29,12 @@ class ModuleOneTest {
     //given
     String filename = "assessments/empty.json";
     List<String> expected = Arrays.asList(new String[]{});
-
+   
+   
     //when
     List<String> results = PortfolioManagerApplication
         .mainReadFile(new String[]{filename});
-
+        
     //then
     Assertions.assertEquals(expected, results);
   }
