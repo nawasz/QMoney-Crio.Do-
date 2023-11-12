@@ -23,7 +23,8 @@ class PortfolioManagerApplicationTest {
     //given
     String filename = "trades.json";
     List<String> expected = Arrays.asList(new String[]{"AAPL", "MSFT", "GOOGL"});
-
+   
+    
     //when
     List<String> results = PortfolioManagerApplication
         .mainReadFile(new String[]{filename});
