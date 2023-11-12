@@ -42,7 +42,7 @@ class PortfolioManagerApplicationTest {
     //when
     List<String> actual = PortfolioManagerApplication
         .mainReadQuotes(new String[]{filename, "2019-12-12"});
-
+   
     //then
     Assertions.assertEquals(expected, actual);
   }
