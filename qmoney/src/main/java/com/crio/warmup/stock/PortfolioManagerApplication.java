@@ -73,6 +73,15 @@ public class PortfolioManagerApplication {
   }
 
 
+
+
+
+  // TODO: CRIO_TASK_MODULE_CALCULATIONS
+  //  Now that you have the list of PortfolioTrade and their data, calculate annualized returns
+  //  for the stocks provided in the Json.
+  //  Use the function you just wrote #calculateAnnualizedReturns.
+  //  Return the list of AnnualizedReturns sorted by annualizedReturns in descending order.
+
   // Note:
   // 1. You may need to copy relevant code from #mainReadQuotes to parse the Json.
   // 2. Remember to get the latest quotes from Tiingo API.
@@ -186,8 +195,92 @@ public class PortfolioManagerApplication {
     return objectMapper;
   }
 
+  // TODO:
+  //  Ensure all tests are passing using below command
+  //  ./gradlew test --tests ModuleThreeRefactorTest
+  static Double getOpeningPriceOnStartDate(List<Candle> candles) {
+     return 0.0;
+  }
 
-  // TODO: CRIO_TASK_MODULE_JSON_PARSING
+
+  public static Double getClosingPriceOnEndDate(List<Candle> candles) {
+     return 0.0;
+  }
+
+
+  public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) {
+     return Collections.emptyList();
+  }
+
+  public static List<AnnualizedReturn> mainCalculateSingleReturn(String[] args)
+      throws IOException, URISyntaxException {
+        List<PortfolioTrade> test = readTradesFromJson(args[0]);
+        String token ="10219a570b3176f7370876279e6428ea6ccf3e4a";
+        RestTemplate restTemplate = new RestTemplate();
+        List<TotalReturnsDto> tests  = new ArrayList<>();
+        for(PortfolioTrade t : test ){
+        String url= prepareUrl(t,LocalDate.parse(args[1]),token);
+      
+        TiingoCandle[]  results =restTemplate.getForObject(url,TiingoCandle[].class);
+for(TiingoCandle each : results){
+  System.out.println(each);
+}
+     return Collections.emptyList();
+  }
+
+  // TODO: CRIO_TASK_MODULE_CALCULATIONS
+  //  Return the populated list of AnnualizedReturn for all stocks.
+  //  Annualized returns should be calculated in two steps:
+  //   1. Calculate totalReturn = (sell_value - buy_value) / buy_value.
+  //      1.1 Store the same as totalReturns
+  //   2. Calculate extrapolated annualized returns by scaling the same in years span.
+  //      The formula is:
+  //      annualized_returns = (1 + total_returns) ^ (1 / total_num_years) - 1
+  //      2.1 Store the same as annualized_returns
+  //  Test the same using below specified command. The build should be successful.
+  //     ./gradlew test --tests PortfolioManagerApplicationTest.testCalculateAnnualizedReturn
+
+  public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
+      PortfolioTrade trade, Double buyPrice, Double sellPrice) {
+        double totalReturn = (sellPrice-buyPrice)/buyPrice;
+       LocalDate startDate = trade.getPurchaseDate();
+       double period =Period.between(startDate,endDate);
+       double days = period.getDays();
+        double  totalNumYears= (days/360); 
+        Double annualReturns = Math.pow(1+totalReturn,1.0/totalNumYears) - 1; 
+      return new AnnualizedReturn(trade.getSymbol(), annualReturns, totalReturn);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+  public static void main(String[] args) throws Exception {
+    Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
+    ThreadContext.put("runId", UUID.randomUUID().toString());
+
+    printJsonObject(mainReadFile(args));
+
+
+    printJsonObject(mainReadQuotes(args));
+
+
+
+    printJsonObject(mainCalculateSingleReturn(args));
+
+  }
+ 
+
+
+    // TODO: CRIO_TASK_MODULE_JSON_PARSING
   //  Follow the instructions provided in the task documentation and fill up the correct values for
   //  the variables provided. First value is provided for your reference.
   //  A. Put a breakpoint on the first line inside mainReadFile() which says
@@ -217,22 +310,17 @@ public class PortfolioManagerApplication {
 
   public static List<String> debugOutputs() {
 
-     String valueOfArgument0 = "trades.json";
-     String resultOfResolveFilePathArgs0 ="/home/crio-user/workspace/nawaznz261970-ME_QMONEY_V2/qmoney/bin/main/trades.json";
-     String toStringOfObjectMapper = "com.fasterxml.jackson.databind.ObjectMapper@1573f9fc";
-     String functionNameFromTestFileInStackTrace = "mainReadFile";
-     String lineNumberFromTestFileInStackTrace = "29";
+    String valueOfArgument0 = "trades.json";
+    String resultOfResolveFilePathArgs0 ="/home/crio-user/workspace/nawaznz261970-ME_QMONEY_V2/qmoney/bin/main/trades.json";
+    String toStringOfObjectMapper = "com.fasterxml.jackson.databind.ObjectMapper@1573f9fc";
+    String functionNameFromTestFileInStackTrace = "mainReadFile";
+    String lineNumberFromTestFileInStackTrace = "29";
 
 
-    return Arrays.asList(new String[]{valueOfArgument0, resultOfResolveFilePathArgs0,
-        toStringOfObjectMapper, functionNameFromTestFileInStackTrace,
-        lineNumberFromTestFileInStackTrace});
-  }
-
-
- 
-
-  
+   return Arrays.asList(new String[]{valueOfArgument0, resultOfResolveFilePathArgs0,
+       toStringOfObjectMapper, functionNameFromTestFileInStackTrace,
+       lineNumberFromTestFileInStackTrace});
+ }
 
 
 
@@ -242,16 +330,5 @@ public class PortfolioManagerApplication {
 
 
 
-  public static void main(String[] args) throws Exception {
-    Thread.setDefaultUncaughtExceptionHandler(new UncaughtExceptionHandler());
-    ThreadContext.put("runId", UUID.randomUUID().toString());
-
-    printJsonObject(mainReadFile(args));
-
-
-    printJsonObject(mainReadQuotes(args));
-
-
-  }
 }
 

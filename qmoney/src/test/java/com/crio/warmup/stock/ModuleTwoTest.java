@@ -1,11 +1,8 @@
 
 package com.crio.warmup.stock;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import com.crio.warmup.stock.dto.PortfolioTrade;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -74,8 +71,4 @@ class ModuleTwoTest {
     Assertions.assertEquals(expected, actual);
   }
 
-
-
 }
-
- 

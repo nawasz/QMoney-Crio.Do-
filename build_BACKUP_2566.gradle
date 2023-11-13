@@ -1,0 +1,163 @@
+
+plugins {
+    id 'java'
+<<<<<<< HEAD
+    id 'jacoco'
+    id 'maven-publish'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'com.github.spotbugs' version '4.5.0'
+=======
+    id 'maven-publish'
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+}
+
+ext {
+    buildId = System.currentTimeMillis()
+<<<<<<< HEAD
+    // Dependency versions
+    springBootVersion = '2.1.8.RELEASE'
+    springCoreVersion = '5.1.9.RELEASE'
+    jacksonVersion = "2.9.8"
+=======
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+}
+
+buildDir = '/tmp/external_build'
+    
+<<<<<<< HEAD
+apply plugin: "idea"
+apply plugin: "checkstyle"
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+=======
+
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 11
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+<<<<<<< HEAD
+dependencies {
+
+}
+
+=======
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+task installGitHooks(type: Copy) {
+    from new File(rootProject.rootDir, "__CRIO__/pre-push")
+    into { new File(rootProject.rootDir, ".git/hooks") }
+    fileMode 0777
+}
+
+<<<<<<< HEAD
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+}
+=======
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+
+allprojects {
+    buildDir = '/tmp/external_build'
+}
+
+subprojects {
+    apply plugin: "java-library"
+<<<<<<< HEAD
+    apply plugin: "idea"
+    apply plugin: "checkstyle"
+    apply plugin: "pmd"
+    apply plugin: "jacoco"
+    apply plugin: "com.github.spotbugs"
+=======
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    test {
+        reports {
+            junitXml.enabled = true
+            def destinationDirectory = System.getProperty("user.home") + "/.gradle/daemon/${buildId}/test-results"
+            junitXml.destination = file(destinationDirectory)
+            html.enabled = true
+        }
+        useJUnitPlatform {
+        }
+        testLogging.events ("STANDARD_ERROR")
+        testLogging.events ("STANDARD_OUT")
+        afterSuite { desc, result ->
+            if (!desc.parent) {
+                println "\nTEST RESULT: ${result.resultType}"
+                println "TEST SUMMARY: RAN ${result.testCount} TESTS, " +
+                        "${result.successfulTestCount} SUCCEEDED, " +
+                        "${result.failedTestCount} FAILED, " +
+                        "${result.skippedTestCount} SKIPPED"
+            }
+        }
+    }
+
+<<<<<<< HEAD
+    checkstyle {
+        ignoreFailures = true
+        toolVersion "7.8.1"
+        configFile file("${rootProject.projectDir}/__CRIO__/checkstyle.xml")
+    }
+
+    pmd {
+        ignoreFailures = true
+        toolVersion = "6.10.0"
+        sourceSets = [sourceSets.main]
+        ruleSetFiles = files("${rootProject.projectDir}/__CRIO__/ruleset.xml")
+        ignoreFailures = true
+    }
+
+    spotbugsMain {
+        ignoreFailures = true
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    spotbugsTest {
+        ignoreFailures = true
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+    }
+
+    jacoco {
+        toolVersion = "0.8.5"
+        reportsDir = file("$buildDir/customJacocoReportDir")
+    }
+
+=======
+>>>>>>> 7bed9e1c0ec829b5c44cd54ec92787ba720b1c84
+    task installGitHooks(type: Copy) {
+        from new File(rootProject.rootDir, '__CRIO__/pre-push')
+        into { new File(rootProject.rootDir, '.git/hooks') }
+        fileMode 0777
+    }
+
+    build.dependsOn installGitHooks
+}
+
+compileJava.dependsOn clean
+
