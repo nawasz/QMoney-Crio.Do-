@@ -58,7 +58,7 @@ public class PortfolioTrade {
   }
   // @Override
   public String toString() {
-       return "["+ this.symbol + ']';
+       return "["+ this.symbol +','+this.purchaseDate+  ']';
   } 
   //solution
 

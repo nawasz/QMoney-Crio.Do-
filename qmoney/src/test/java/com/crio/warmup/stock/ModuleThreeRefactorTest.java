@@ -44,6 +44,7 @@ class ModuleThreeRefactorTest {
   @Test
   public void getClosingPriceOnEndDate() throws JsonProcessingException {
     Double price = PortfolioManagerApplication.getClosingPriceOnEndDate(getCandles(googlQuotes));
+  
     Assertions.assertEquals(1348.49, price, 0.1);
   }
 

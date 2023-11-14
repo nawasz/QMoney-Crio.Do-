@@ -24,4 +24,12 @@ public class AnnualizedReturn {
   public Double getTotalReturns() {
     return totalReturns;
   }
+   @Override
+  public String toString() {
+    return "TiingoCandle{"
+            + "symbol=" + symbol
+            + ", annualizedReturn=" + annualizedReturn
+            + ", totalReturns=" + totalReturns
+            + '}';
+  }
 }
