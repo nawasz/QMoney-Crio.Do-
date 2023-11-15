@@ -69,9 +69,9 @@ public class PortfolioManagerApplication {
 
     PortfolioTrade[] tradesFromJson = objectMapper.readValue(file, PortfolioTrade[].class);
     ArrayList<String> ans = new ArrayList<>();
-    for(PortfolioTrade each : tradesFromJson ){
-      ans.add(each.getSymbol());
-    }
+    // for(PortfolioTrade each : tradesFromJson ){
+    //   ans.add(each.getSymbol());
+    // }
     return ans;
   }
 
