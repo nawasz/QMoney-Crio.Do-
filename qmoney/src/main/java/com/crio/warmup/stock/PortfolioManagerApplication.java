@@ -204,7 +204,7 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
     RestTemplate restTemplate = new RestTemplate();
     List<TotalReturnsDto> tests  = new ArrayList<>();
     for(PortfolioTrade t : test ){
-    String url= prepareUrl(t,LocalDate.parse(args[1]),"10219a570b3176f7370876279e6428ea6ccf3e4a");
+    String url= prepareUrl(t,LocalDate.parse(args[1]), getToken());
   
     TiingoCandle[]  results =restTemplate.getForObject(url,TiingoCandle[].class);
       if(results != null){
@@ -250,7 +250,7 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
  // TODO:
  //  Build the Url using given parameters and use this function in your code to cann the API.
  public static String prepareUrl(PortfolioTrade trade, LocalDate endDate, String token) {
-   String url = "https://api.tiingo.com/tiingo/daily/" + trade.getSymbol() + "/prices?startDate=" + trade.getPurchaseDate()+"&endDate="+endDate+"&token=10219a570b3176f7370876279e6428ea6ccf3e4a";
+   String url = "https://api.tiingo.com/tiingo/daily/" + trade.getSymbol() + "/prices?startDate=" + trade.getPurchaseDate()+"&endDate="+endDate+"&token="+ token;
 // System.out.println(url);
  
    
@@ -297,6 +297,7 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
   public static List<Candle> fetchCandles(PortfolioTrade trade, LocalDate endDate, String token) {
     //   RestTemplate restTemplate = new RestTemplate();
     String tiingoRestURL = prepareUrl(trade, endDate, token);
+ 
     TiingoCandle[] tiingoCandleResults = restTemplate.getForObject(tiingoRestURL, TiingoCandle[].class);
     return Arrays.stream(tiingoCandleResults).collect(Collectors.toList());
   }
