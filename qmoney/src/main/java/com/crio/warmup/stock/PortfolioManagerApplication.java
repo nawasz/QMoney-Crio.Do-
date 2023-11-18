@@ -44,6 +44,9 @@ public class PortfolioManagerApplication {
   public static RestTemplate restTemplate = new RestTemplate();
 
 
+  
+
+
   // TODO: CRIO_TASK_MODULE_JSON_PARSING
   //  Task:
   //       - Read the json file provided in the argument[0], The file is available in the classpath.
