@@ -6,6 +6,7 @@ import com.crio.warmup.stock.dto.*;
 import com.crio.warmup.stock.log.UncaughtExceptionHandler;
 import com.crio.warmup.stock.portfolio.PortfolioManager;
 import com.crio.warmup.stock.portfolio.PortfolioManagerFactory;
+import com.crio.warmup.stock.portfolio.PortfolioManagerImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.io.File;
@@ -41,7 +42,7 @@ import org.apache.logging.log4j.ThreadContext;
 import org.springframework.web.client.RestTemplate;
 
 
-public class PortfolioManagerApplication {
+public class PortfolioManagerApplication  {
 
   public static RestTemplate restTemplate = new RestTemplate();
 
@@ -344,11 +345,12 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
 
   public static List<AnnualizedReturn> mainCalculateReturnsAfterRefactor(String[] args)
       throws Exception {
-       String file = args[0];
+       List<PortfolioTrade> portfolioTrades = readTradesFromJson(args[0]);
        LocalDate endDate = LocalDate.parse(args[1]);
-       String contents = readFileAsString(file);
-       ObjectMapper objectMapper = getObjectMapper();
-       return portfolioManager.calculateAnnualizedReturn(Arrays.asList(portfolioTrades), endDate);
+      // PortfolioManagerFactory portfolioManagerFactory = new PortfolioManagerFactory();
+       PortfolioManager portfolioManager =  PortfolioManagerFactory.getPortfolioManager(restTemplate);
+     
+       return portfolioManager.calculateAnnualizedReturn(portfolioTrades, endDate);
   }
 
 

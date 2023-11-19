@@ -102,7 +102,9 @@ class PortfolioManagerTest {
     //when
     List<AnnualizedReturn> annualizedReturns = portfolioManager
         .calculateAnnualizedReturn(portfolioTrades, LocalDate.parse("2019-12-12"));
-
+    for(AnnualizedReturn each:annualizedReturns){
+        System.out.println(each);
+    }
     //then
     List<String> symbols = annualizedReturns.stream().map(AnnualizedReturn::getSymbol)
         .collect(Collectors.toList());

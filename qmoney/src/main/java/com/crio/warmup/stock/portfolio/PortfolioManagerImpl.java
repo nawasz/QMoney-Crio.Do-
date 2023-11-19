@@ -69,20 +69,37 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
       throws JsonProcessingException {
-        String uri = buildUri(symbol,from,to);
-      TiingoCandle[] resurl =   this.restTemplate.getForObject(uri, TiingoCandle[].class);
-      ArrayList<Candle> CandleList = new ArrayList<>();
-      for(TiingoCandle each : resurl){
-        CandleList.add(each);
-      }
-
-     return CandleList;
+        // if(from.compareTo(to) >= 0){
+        //   throw new RunTimeException();
+        // }
+        ArrayList<Candle> CandleList = new ArrayList<>();
+        try{
+          String uri = buildUri(symbol,from,to);
+      
+          TiingoCandle[] resurl =   restTemplate.getForObject(uri, TiingoCandle[].class);
+          
+      
+          for(TiingoCandle each : resurl){
+            CandleList.add(each);
+          }
+    
+        
+         }catch(Exception e){
+          e.printStackTrace();
+      
+        }
+        return CandleList;
+        
   }
 
   protected String buildUri(String symbol, LocalDate startDate, LocalDate endDate) {
-       String uriTemplate = "https:api.tiingo.com/tiingo/daily/$SYMBOL/prices?"
+       String token ="10219a570b3176f7370876279e6428ea6ccf3e4a";
+       String uriTemplate = "https://api.tiingo.com/tiingo/daily/$SYMBOL/prices?"
             + "startDate=$STARTDATE&endDate=$ENDDATE&token=$APIKEY";
-        return uriTemplate;
+            String url = uriTemplate.replace("$APIKEY",token).replace("$SYMBOL",symbol)
+                          .replace("$STARTDATE",startDate.toString()).replace("$ENDDATE",endDate.toString());
+          
+                          return url;
   }
 
 
@@ -91,16 +108,18 @@ public class PortfolioManagerImpl implements PortfolioManager {
       LocalDate endDate) throws JsonProcessingException {
     // TODO Auto-generated method stub
     List<AnnualizedReturn> annualizedReturnsList = new ArrayList<>();
-for(PortfolioTrade trade: portfolioTrades){
-  List<Candle> candles = getStockQuote(trade.getSymbol(),trade.getPurchaseDate(),endDate);
-  Double sellPrice = candles.get(0).getOpen();
-  Double buyPrice = candles.get(candles.size()-1).getClose();
-  double totalNumberYears = ChronoUnit.DAYS.between(trade.getPurchaseDate(), endDate) / 365.2422; //period
-  double totalReturns = (sellPrice - buyPrice) / buyPrice; //absoluteReturn
-  double annualizedReturns = Math.pow((1.0 + totalReturns), (1.0 / totalNumberYears)) - 1;
-  annualizedReturnsList.add( new AnnualizedReturn(trade.getSymbol(), annualizedReturns, totalReturns));
-}
+      for(PortfolioTrade trade: portfolioTrades){
+        List<Candle> candles = getStockQuote(trade.getSymbol(),trade.getPurchaseDate(),endDate);
+           Double buyPrice = candles.get(0).getOpen();
+          Double sellPrice = candles.get(candles.size()-1).getClose();
+          double totalNumberYears = ChronoUnit.DAYS.between(trade.getPurchaseDate(), endDate) / 365.2422; //period
+          double totalReturns = (sellPrice - buyPrice) / buyPrice; //absoluteReturn
+          double annualizedReturns = Math.pow((1.0 + totalReturns), (1.0 / totalNumberYears)) - 1;
+          annualizedReturnsList.add( new AnnualizedReturn(trade.getSymbol(), annualizedReturns, totalReturns));
+      }
     
-    return annualizedReturnsList;
+    return annualizedReturnsList.stream()
+          .sorted((a1,a2) -> Double.compare(a2.getAnnualizedReturn(),a1.getAnnualizedReturn()))
+          .collect(Collectors.toList());
   }
 }
