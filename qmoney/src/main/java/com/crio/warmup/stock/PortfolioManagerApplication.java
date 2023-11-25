@@ -80,13 +80,6 @@ public class PortfolioManagerApplication  {
     }
     return ans;
   }
-public class PortfolioManagerApplication {
-
-
-
-
-
-
 
 
 
@@ -372,7 +365,7 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
 
 
 
-    printJsonObject(mainCalculateSingleReturn(args));
+   // printJsonObject(mainCalculateSingleReturn(args));
     printJsonObject(mainCalculateReturnsAfterRefactor(args));
   }
  
