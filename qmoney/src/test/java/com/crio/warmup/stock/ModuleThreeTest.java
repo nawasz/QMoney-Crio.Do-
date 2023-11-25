@@ -17,10 +17,8 @@ class ModuleThreeTest {
 
     //when
     List<AnnualizedReturn> result = PortfolioManagerApplication
-        .mainCalculateReturnsAfterRefactor(new String[]{filename, "2019-12-12"});
-    for(AnnualizedReturn each :result){
-      System.out.println(each);
-    }
+        .mainCalculateSingleReturn(new String[]{filename, "2019-12-12"});
+
     //then
     List<String> symbols = result.stream().map(AnnualizedReturn::getSymbol)
         .collect(Collectors.toList());
