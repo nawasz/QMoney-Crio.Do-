@@ -53,12 +53,7 @@ private static ObjectMapper getObjectMapper() {
    
     ObjectMapper mapper = getObjectMapper();
    // System.out.println(mapper.readValue(apiResponse, AlphavantageDailyResponse.class));
-    Map<LocalDate,AlphavantageCandle> dailyResonses = mapper.readValue(apiResponse, AlphavantageDailyResponse.class).getCandles();
-    for (Map.Entry<LocalDate, AlphavantageCandle> entry : dailyResonses.entrySet()) {
-      LocalDate  date = entry.getKey();
-      AlphavantageCandle candle = entry.getValue();
-      System.out.println("Key: " + date + ", Value: " + candle);
-  }     
+    Map<LocalDate,AlphavantageCandle> dailyResonses = mapper.readValue(apiResponse, AlphavantageDailyResponse.class).getCandles();     
     List<Candle>stocks = new ArrayList<>();
     for(LocalDate date = from; !date.isAfter(to);date =date.plusDays(1)){
       AlphavantageCandle candle = dailyResonses.get(date);
