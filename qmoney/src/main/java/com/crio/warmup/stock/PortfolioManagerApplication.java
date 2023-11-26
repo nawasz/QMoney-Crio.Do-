@@ -348,7 +348,7 @@ public static AnnualizedReturn calculateAnnualizedReturns(LocalDate endDate,
        List<PortfolioTrade> portfolioTrades = readTradesFromJson(args[0]);
        LocalDate endDate = LocalDate.parse(args[1]);
       // PortfolioManagerFactory portfolioManagerFactory = new PortfolioManagerFactory();
-       PortfolioManager portfolioManager =  PortfolioManagerFactory.getPortfolioManager(restTemplate);
+       PortfolioManager portfolioManager =  PortfolioManagerFactory.getPortfolioManager(null, restTemplate);
      
        return portfolioManager.calculateAnnualizedReturn(portfolioTrades, endDate);
   }

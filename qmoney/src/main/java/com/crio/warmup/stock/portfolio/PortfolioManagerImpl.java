@@ -8,6 +8,7 @@ import com.crio.warmup.stock.dto.AnnualizedReturn;
 import com.crio.warmup.stock.dto.Candle;
 import com.crio.warmup.stock.dto.PortfolioTrade;
 import com.crio.warmup.stock.dto.TiingoCandle;
+import com.crio.warmup.stock.quotes.StockQuotesService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -29,7 +30,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
 
 
-
+  private StockQuotesService stockQuotesService;
   private RestTemplate restTemplate;
 
 
@@ -37,6 +38,9 @@ public class PortfolioManagerImpl implements PortfolioManager {
   // This is absolutely necessary for backward compatibility
   protected PortfolioManagerImpl(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
+  }
+  PortfolioManagerImpl(StockQuotesService stockQuotesService){
+      this.stockQuotesService = stockQuotesService;
   }
 
 
@@ -69,26 +73,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
 
   public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
       throws JsonProcessingException {
-        // if(from.compareTo(to) >= 0){
-        //   throw new RunTimeException();
-        // }
-        ArrayList<Candle> CandleList = new ArrayList<>();
-        try{
-          String uri = buildUri(symbol,from,to);
-      
-          TiingoCandle[] resurl =   restTemplate.getForObject(uri, TiingoCandle[].class);
-          
-      
-          for(TiingoCandle each : resurl){
-            CandleList.add(each);
-          }
-    
-        
-         }catch(Exception e){
-          e.printStackTrace();
-      
-        }
-        return CandleList;
+        return stockQuotesService.getStockQuote(symbol, from, to);
         
   }
 
