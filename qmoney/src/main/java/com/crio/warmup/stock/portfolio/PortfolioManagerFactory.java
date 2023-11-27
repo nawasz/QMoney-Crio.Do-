@@ -7,7 +7,10 @@ import org.springframework.web.client.RestTemplate;
 
 public class PortfolioManagerFactory {
 
-
+  public static PortfolioManager getPortfolioManager(RestTemplate restTemplate) {
+  // StockQuotesService stockQuotesService = StockQuoteServiceFactory.INSTANCE.getService(provider,restTemplate);
+   return new PortfolioManagerImpl(restTemplate);
+}
  
 
   // TODO: CRIO_TASK_MODULE_ADDITIONAL_REFACTOR
