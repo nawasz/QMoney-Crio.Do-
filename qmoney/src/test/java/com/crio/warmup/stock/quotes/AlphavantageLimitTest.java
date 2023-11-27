@@ -42,7 +42,7 @@ class AlphavantageLimitTest {
           .getStockQuote("AAPL",
               LocalDate.parse("2019-01-01"), LocalDate.parse("2019-01-04"));
     } catch (Throwable th) {
-      if (!(th instanceof StockQuoteServiceException)) {
+      if (!(th instanceof StockQuoteServiceExceptions)) {
         fail("Method throwed runtime exception");
       }
     }

@@ -1,20 +1,16 @@
 
 package com.crio.warmup.stock.quotes;
 
-import static java.time.temporal.ChronoUnit.DAYS;
-import static java.time.temporal.ChronoUnit.SECONDS;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import com.crio.warmup.stock.dto.AlphavantageCandle;
 import com.crio.warmup.stock.dto.AlphavantageDailyResponse;
 import com.crio.warmup.stock.dto.Candle;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.time.LocalDate;
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.web.client.RestTemplate;
 
 public class AlphavantageService implements StockQuotesService {
@@ -29,8 +25,8 @@ protected AlphavantageService(RestTemplate restTemplate){
 }
 // "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol="+symbol+"&apikey="+getToken();
 protected String buildUri(String symbol) {
-     String urlTemplate ="https://www.alphavantage.co/query?function=$FUNCTION&symbol=$SYMBOL&apikey=demo";
-     String url = urlTemplate.replace("$FUNCTION",FUNCTION).replace("$SYMBOL",symbol).replace("demo",TOKEN);
+     String urlTemplate ="https://www.alphavantage.co/query?function=$FUNCTION&symbol=$SYMBOL&apikey=$demo";
+     String url = urlTemplate.replace("$FUNCTION",FUNCTION).replace("$SYMBOL",symbol).replace("$demo",TOKEN);
     //  String uriTemplate = "https://api.tiingo.com/tiingo/daily/$SYMBOL/prices?"
     //       + "startDate=$STARTDATE&endDate=$ENDDATE&token=$APIKEY";
     //       String url = uriTemplate.replace("$APIKEY",token).replace("$SYMBOL",symbol)
@@ -54,7 +50,7 @@ private static ObjectMapper getObjectMapper() {
       try{
       String apiResponse = restTemplate.getForObject(url, String.class);
   
-      System.out.println(apiResponse );
+     
       ObjectMapper mapper = getObjectMapper();
      // System.out.println(mapper.readValue(apiResponse, AlphavantageDailyResponse.class));
       Map<LocalDate,AlphavantageCandle> dailyResonses = mapper.readValue(apiResponse, AlphavantageDailyResponse.class).getCandles();     
@@ -68,7 +64,7 @@ private static ObjectMapper getObjectMapper() {
       }
       return stocks;
     } catch(NullPointerException e){
-      throw new StockQuoteServiceExceptions("Alphavantage returned invalid response");
+      throw new StockQuoteServiceExceptions("Method throwed runtime exception");
     }
     
   }
