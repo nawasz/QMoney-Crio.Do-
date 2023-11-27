@@ -44,6 +44,7 @@ public class TiingoService implements StockQuotesService {
       } catch(NullPointerException e){
         throw new StockQuoteServiceExceptions("Tiingo  returned invalid response");
       }
+      return CandleList;
     }
 
     private String buildUri(String symbol, LocalDate from, LocalDate to) {
