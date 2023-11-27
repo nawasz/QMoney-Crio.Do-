@@ -14,6 +14,11 @@ class PortfolioManagerFactoryTest {
   @Mock
   private RestTemplate restTemplate;
 
+  @Test
+  void getPortfolioManager() {
+    Assertions.assertTrue(PortfolioManagerFactory.getPortfolioManager("tiingo", restTemplate)
+        instanceof PortfolioManagerImpl);
+  }
 
   @Test
   void getPortfolioManagerWithStockQuoteService() {
