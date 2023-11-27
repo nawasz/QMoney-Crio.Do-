@@ -8,7 +8,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 
-import com.crio.warmup.stock.exception.StockQuoteServiceException;
+
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
