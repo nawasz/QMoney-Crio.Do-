@@ -21,7 +21,7 @@ public interface StockQuotesService {
 
   //CHECKSTYLE:OFF
   List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
-      throws JsonProcessingException
+      throws JsonProcessingException,StockQuoteServiceExceptions
   ;
   //CHECKSTYLE:ON
 

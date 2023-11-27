@@ -45,24 +45,32 @@ private static ObjectMapper getObjectMapper() {
 }
   @Override
   public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
-      throws JsonProcessingException {
+      throws JsonProcessingException,StockQuoteServiceExceptions {
+
     // TODO Auto-generated method stub
-    String url = buildUri(symbol);
+
    
-    String apiResponse = restTemplate.getForObject(url, String.class);
-   
-    ObjectMapper mapper = getObjectMapper();
-   // System.out.println(mapper.readValue(apiResponse, AlphavantageDailyResponse.class));
-    Map<LocalDate,AlphavantageCandle> dailyResonses = mapper.readValue(apiResponse, AlphavantageDailyResponse.class).getCandles();     
-    List<Candle>stocks = new ArrayList<>();
-    for(LocalDate date = from; !date.isAfter(to);date =date.plusDays(1)){
-      AlphavantageCandle candle = dailyResonses.get(date);
-      if(candle != null){
-       candle.setDate(date);
-       stocks.add(candle);
+      String url = buildUri(symbol);
+      try{
+      String apiResponse = restTemplate.getForObject(url, String.class);
+  
+      System.out.println(apiResponse );
+      ObjectMapper mapper = getObjectMapper();
+     // System.out.println(mapper.readValue(apiResponse, AlphavantageDailyResponse.class));
+      Map<LocalDate,AlphavantageCandle> dailyResonses = mapper.readValue(apiResponse, AlphavantageDailyResponse.class).getCandles();     
+      List<Candle>stocks = new ArrayList<>();
+      for(LocalDate date = from; !date.isAfter(to);date =date.plusDays(1)){
+        AlphavantageCandle candle = dailyResonses.get(date);
+        if(candle != null){
+         candle.setDate(date);
+         stocks.add(candle);
+        }
       }
+      return stocks;
+    } catch(NullPointerException e){
+      throw new StockQuoteServiceExceptions("Alphavantage returned invalid response");
     }
-    return stocks;
+    
   }
 
   // TODO: CRIO_TASK_MODULE_ADDITIONAL_REFACTOR

@@ -25,24 +25,28 @@ public class TiingoService implements StockQuotesService {
   }
   @Override
   public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
-      throws JsonProcessingException {
+      throws JsonProcessingException,StockQuoteServiceExceptions {
     // TODO Auto-generated method stub
     List<Candle> CandleList ;
-    
+  
       String uri = buildUri(symbol,from,to);
-     String stocks  =   restTemplate.getForObject(uri, String.class);
-     ObjectMapper objectMapper = getObjectMapper();
-    TiingoCandle[] resurl = objectMapper.readValue(stocks,TiingoCandle[].class);
-      
-     if(resurl != null){  
-      CandleList= Arrays.asList(resurl);
-     }
-     else{
-      CandleList =Arrays.asList(new TiingoCandle[0]);
-     }  
-    return CandleList;
-  }
-  private String buildUri(String symbol, LocalDate from, LocalDate to) {
+      try{
+        String stocks  =   restTemplate.getForObject(uri, String.class);
+        ObjectMapper objectMapper = getObjectMapper();
+       TiingoCandle[] resurl = objectMapper.readValue(stocks,TiingoCandle[].class);
+         
+        if(resurl != null){  
+         CandleList= Arrays.asList(resurl);
+        }
+        else{
+         CandleList =Arrays.asList(new TiingoCandle[0]);
+        }
+      } catch(NullPointerException e){
+        throw new StockQuoteServiceExceptions("Tiingo  returned invalid response");
+      }
+    }
+
+    private String buildUri(String symbol, LocalDate from, LocalDate to) {
     String token ="10219a570b3176f7370876279e6428ea6ccf3e4a";
        String uriTemplate = "https://api.tiingo.com/tiingo/daily/$SYMBOL/prices?"
             + "startDate=$STARTDATE&endDate=$ENDDATE&token=$APIKEY";

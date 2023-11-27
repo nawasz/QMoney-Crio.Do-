@@ -36,4 +36,6 @@ public enum StockQuoteServiceFactory {
       }
      return new AlphavantageService(restTemplate);
   }
+
+  
 }
