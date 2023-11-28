@@ -26,7 +26,7 @@ public class TiingoService implements StockQuotesService {
   }
   @Override
   public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
-      throws JsonProcessingException,StockQuoteServiceExceptions {
+      throws JsonProcessingException,StockQuoteServiceException{
     // TODO Auto-generated method stub
     List<Candle> CandleList ;
   
@@ -43,7 +43,7 @@ public class TiingoService implements StockQuotesService {
          CandleList =Arrays.asList(new TiingoCandle[0]);
         }
       } catch(NullPointerException e){
-        throw new StockQuoteServiceExceptions("Tiingo  returned invalid response");
+        throw new StockQuoteServiceException("Tiingo  returned invalid response");
       }
       return CandleList;
     }
