@@ -41,7 +41,7 @@ private static ObjectMapper getObjectMapper() {
 }
   @Override
   public List<Candle> getStockQuote(String symbol, LocalDate from, LocalDate to)
-      throws JsonProcessingException,StockQuoteServiceExceptions {
+      throws JsonProcessingException,StockQuoteServiceException {
 
     // TODO Auto-generated method stub
 
@@ -64,7 +64,7 @@ private static ObjectMapper getObjectMapper() {
       }
       return stocks;
     } catch(NullPointerException e){
-      throw new StockQuoteServiceExceptions("Method throwed runtime exception");
+      throw new StockQuoteServiceException("Method throwed runtime exception");
     }
     
   }
