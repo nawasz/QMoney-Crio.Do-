@@ -38,14 +38,14 @@ class AlphavantageLimitTest {
   void getStockQuoteSingle() {
     Mockito.doReturn(aaplQuotes).when(restTemplate).getForObject(anyString(), eq(String.class));
     try {
-      alphavantageService
-          .getStockQuote("AAPL",
-              LocalDate.parse("2019-01-01"), LocalDate.parse("2019-01-04"));
+      alphavantageService.getStockQuote("AAPL", LocalDate.parse("2019-01-01"),
+          LocalDate.parse("2019-01-04"));
     } catch (Throwable th) {
       if (!(th instanceof StockQuoteServiceException)) {
         fail("Method throwed runtime exception");
       }
     }
   }
+
 }
 
