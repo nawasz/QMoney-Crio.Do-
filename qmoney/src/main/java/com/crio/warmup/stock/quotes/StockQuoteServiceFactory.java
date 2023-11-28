@@ -8,8 +8,15 @@ public enum StockQuoteServiceFactory {
   // Note: (Recommended reading)
   // Pros and cons of implementing Singleton via enum.
   // https://softwareengineering.stackexchange.com/q/179386/253205
-
   INSTANCE;
+  public TiingoService gTiingoService(RestTemplate restTemplate){
+    return new TiingoService(restTemplate);
+  }
+  public AlphavantageService gAlphavantageService(RestTemplate restTemplate){
+    return new AlphavantageService(restTemplate);
+  }
+
+  // INSTANCE;
   // public final class StockQuoteServiceFactory {
   //   public final static StockQuoteServiceFactory INSTANCE = new StockQuoteServiceFactory();
   //   private StockQuoteServiceFactory(){

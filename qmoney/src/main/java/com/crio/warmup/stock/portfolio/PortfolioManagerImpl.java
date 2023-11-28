@@ -38,7 +38,7 @@ public class PortfolioManagerImpl implements PortfolioManager {
   // Caution: Do not delete or modify the constructor, or else your build will break!
   // This is absolutely necessary for backward compatibility
   protected PortfolioManagerImpl(RestTemplate restTemplate) {
-    this.restTemplate = restTemplate;
+    this.restTemplate=restTemplate;
   }
   PortfolioManagerImpl(StockQuotesService stockQuotesService){
       this.stockQuotesService = stockQuotesService;

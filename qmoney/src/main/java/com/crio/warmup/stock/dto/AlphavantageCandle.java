@@ -2,6 +2,7 @@ package com.crio.warmup.stock.dto;
 
 
 import java.time.LocalDate;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,6 +22,7 @@ public class AlphavantageCandle implements Candle {
   private Double high;
   @JsonProperty("3. low")
   private Double low;
+  @JsonIgnore
   private LocalDate  date;
   @Override
   public Double getOpen() {
